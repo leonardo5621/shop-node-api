@@ -7,9 +7,13 @@ const router = express.Router();
 
 router.post('/', routerTo(OrderController.openOrder));
 
+router.put(
+  '/:orderId',
+  routerTo(OrderController.updatePreOrder),
+);
+
 router.post(
-  '/complete-order',
-  tokenOrderValidation,
+  '/complete',
   routerTo(OrderController.completeOrder),
 );
 
@@ -18,16 +22,5 @@ router.get(
   routerTo(OrderController.getOrderByCode),
 );
 
-router
-  .get(
-    '/:orderId',
-    tokenOrderValidation,
-    routerTo(OrderController.getSingleOrder),
-  )
-  .put(
-    '/:orderId',
-    tokenOrderValidation,
-    routerTo(OrderController.updatePreOrder),
-  );
 
 export default router;
