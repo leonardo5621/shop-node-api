@@ -11,10 +11,10 @@ export class OrderController {
     return res.json({ ...order });
   }
 
-  static async getOrderByCode(req: Request, res: Response) {
-    const { orderCode } = req.params;
+  static async getOrder(req: Request, res: Response) {
+    const { orderId } = req.params;
     const order = await transactionContext(async transactionManager =>
-      OrderService.getOrderByCode(orderCode, transactionManager),
+      OrderService.getOrderByCode(orderId, transactionManager),
     );
     return res.json({ ...order });
   }

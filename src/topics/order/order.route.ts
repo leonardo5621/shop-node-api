@@ -17,8 +17,8 @@ router.post(
 );
 
 router.get(
-  '/confirmed/:orderCode',
-  routerTo(OrderController.getOrderByCode),
+  '/:orderId',
+  routerTo(OrderController.getOrder),
 );
 
 

@@ -58,7 +58,7 @@ export class OrderService {
   }
 
   static async getOrderByCode(
-    orderCode: string,
+    id: string,
     transactionalEntityManager: EntityManager,
   ) {
     return transactionalEntityManager
@@ -66,7 +66,7 @@ export class OrderService {
       .innerJoinAndSelect('o.shop', 's')
       .innerJoinAndSelect('o.orderProducts', 'op')
       .innerJoinAndSelect('op.products', 'prods')
-      .where({ orderCode })
+      .where({ id })
       .getOne();
   }
 
