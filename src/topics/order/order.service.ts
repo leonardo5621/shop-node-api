@@ -88,7 +88,12 @@ export class OrderService {
       shopId,
       transactionalEntityManager,
     );
-    if (!shopFound) throw new Error(`Ce magasin n'a pas été trouvé`);
+    if (!shopFound) {
+      throw new BackError(
+        'Shop not found',
+        400
+      )
+    };
     const validProducts = await ShopService.getShopProducts(
       transactionalEntityManager,
       shopId,
