@@ -2,7 +2,7 @@
 
 This is an example of a Node API with Express, TypeORM and PostgreSQL.
 
-The database can be setup by just running a docker container specified in the `docker-compose` file by just running:
+The database can be setup through a docker container specified in the `docker-compose` file by running:
 
     docker-compose up -d
  

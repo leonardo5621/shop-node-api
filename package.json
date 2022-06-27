@@ -8,7 +8,7 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "serve": "./node_modules/.bin/ts-node-dev src/index.ts -r tsconfig-paths/register --respawn --traspileOnly --ignore-watch node_modules --no-notify src/index.ts",
     "launch": "tsc-watch --onSuccess \"node dist/main.js\"",
-    "start": "node dist/src/index.js",
+    "start": "node dist/src/index.js"
   },
   "_moduleAliases": {
     "@orm": "dist/orm"
