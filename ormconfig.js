@@ -1,10 +1,10 @@
 module.exports = {
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  url: 'postgres://root:password@localhost:5423/shop-node-api',
   synchronize: false,
   logging: false,
-  entities: [process.env.TYPEORM_ENTITY_PATH],
-  migrations: [process.env.TYPEORM_MIGRATION_PATH],
+  entities: ['./src/orm/**/*.model.ts'],
+  migrations: ['./src/db/migrations/*.ts'],
   subscribers: ['./src/subscriber/**/*.ts'],
   cli: {
     migrationsDir: './src/db/migrations',

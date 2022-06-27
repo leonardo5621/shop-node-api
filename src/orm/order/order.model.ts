@@ -8,8 +8,9 @@ import {
   DeleteDateColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
-import { Shop, OrderProducts } from '..';
+import { Shop, OrderProducts, PaymentOrder } from '..';
 
 // eslint-disable-next-line no-shadow
 export enum OrderStatus {
@@ -80,4 +81,7 @@ export class Order {
 
   @OneToMany(type => OrderProducts, orderProducts => orderProducts.order)
   orderProducts: OrderProducts[];
+
+  @OneToOne(type => PaymentOrder, paymentOrder => paymentOrder.order)
+  paymentOrder: PaymentOrder;
 }

@@ -1,5 +1,4 @@
 import { createConnection } from 'typeorm';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 createConnection()
   .then()

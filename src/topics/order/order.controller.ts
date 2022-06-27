@@ -28,15 +28,15 @@ export class OrderController {
   }
 
   static async completeOrder(req: Request, res: Response) {
-    const { orderId, ...orderClientDetails } = req.body;
-    const orderCode = await transactionContext(async transactionManager =>
+    const { orderId, ...paymentDetails } = req.body;
+    const { ok } = await transactionContext(async transactionManager =>
       OrderService.completeOrder(
         orderId,
-        orderClientDetails,
+        paymentDetails,
         transactionManager,
       ),
     );
-    return res.json({ orderCode });
+    return res.json({ ok });
   }
 
   static async updatePreOrder(req: Request, res: Response) {

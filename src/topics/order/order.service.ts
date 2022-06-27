@@ -1,26 +1,25 @@
-/* eslint-disable camelcase */
 import _ from 'lodash';
-import { Order, OrderProducts, Product } from '../../orm';
+import { Order, OrderProducts, PaymentOrder, Product, Email } from '../../orm';
 import { EntityManager } from 'typeorm';
 import { BackError } from '../../helpers/back_error';
 import { generateToken } from '../../helpers/auth';
 import { ShopService } from '../shop/shop.service';
-import Hashids from 'hashids';
 import { OrderStatus } from '../../orm/order/order.model';
 
 export class OrderService {
   static async completeOrder(
     orderId: number,
-    orderClientDetails,
+    paymentDetails,
     transactionalEntityManager: EntityManager,
   ) {
-    const hashids = new Hashids("salt-encoding", 8);
-    const orderCode = hashids.encode(orderId);
     try {
+      await OrderService.managePayment(orderId, paymentDetails, transactionalEntityManager);
+  
+      await OrderService.notifyOrderEmail(orderId, transactionalEntityManager);
       await transactionalEntityManager
         .createQueryBuilder(Order, 'o')
         .update(Order)
-        .set({ ...orderClientDetails, orderCode })
+        .set({ orderStatus: OrderStatus.AWAITING_DELIVERY })
         .where({ id: orderId })
         .execute();
     } catch (error) {
@@ -29,7 +28,34 @@ export class OrderService {
         500,
       );
     }
-    return orderCode;
+    return { ok: true };
+  }
+
+  static async managePayment(
+    orderId: number,
+    paymentDetails,
+    manager: EntityManager,
+  ) {
+    //
+    //RUN Payment details validation here
+    return manager.insert(PaymentOrder, {
+      orderId,
+    });
+  }
+
+  static async notifyOrderEmail(
+    orderId: number,
+    manager: EntityManager,
+  ) {
+    const order = await manager
+      .createQueryBuilder(Order, 'o')
+      .where({ id: orderId })
+      .getOne();
+    return manager.insert(Email, {
+      sendTo: order.clientEmail,
+      bodyText: 'Congratulations! your order has been confirmed',
+      sentFrom: 'shop_api@node.com'
+    })
   }
 
   static async getOrderByCode(
