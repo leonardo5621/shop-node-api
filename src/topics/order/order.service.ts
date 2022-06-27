@@ -36,8 +36,7 @@ export class OrderService {
     paymentDetails,
     manager: EntityManager,
   ) {
-    //
-    //RUN Payment details validation here
+    // RUN Payment details validation here
     return manager.insert(PaymentOrder, {
       orderId,
     });

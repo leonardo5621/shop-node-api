@@ -22,9 +22,7 @@ app.use((err: BackError, req, res, next) => {
   });
 });
 
-app.get('/', (req, res) => {
-  return res.json({ hello: 'world' });
-});
+app.get('/', (req, res) => res.json({ hello: 'world' }));
 
 const port = 3333;
 
