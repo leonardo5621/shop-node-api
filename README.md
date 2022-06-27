@@ -1,35 +1,52 @@
-Partie backend du projet clickcollect
+## Starting the database
 
-## Lancer la base de données
+This is an example of a Node API with Express and TypeORM and PostgreSQL.
 
-Afin de lancer l'application avec la base de données Postgres, il est nécessaire avant
-de démarrer les containers docker correspondants
+The database can be setup by just running a docker container specified in the docker-compose file
 
-Installez docker compose s'il n'est pas encore sur la machine: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-fr
+You can refer to the following documentation in order to install docker-compose on your machine: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-fr
 
-Ensuite faitez:
+Then you can run:
 
     docker-compose up -d
+ 
+You can setup the database with the pre-defined models running:
 
-Pour vérifier que les containeurs sont bien lancés, tapez la commande:
+    npm run typeorm schema:sync
+    npm run typeorm migration:run
 
 
-    docker ps
+## Launching the application
 
-Deux containers sont censés d'apparare, celui de postres et un autre pour pgadmin
-Avec pgadmin c'est possible de accéder la BDD plus facilement en local.
-
-Allez sur: localhost:5050
-
-Ensuite utilisez les idéntifiants:
-
-<ol>
-  <li>User: admin@admin.com</li>
-  <li>MP: root</li>
-</ol>
-
-## Comment lancer l'application
+You can launch the server by just running:
 
     npm run serve
 
-L'API sera ainsi lancé sur le port 3333 sur local
+The API is going to be available at the local port 3333.
+
+### Available routes
+
+ - POST `/order`: Create an order
+ - PUT `/order/:orderId`: Update an open order
+ - GET `/order/:orderId`: Get an order by its code
+ - POST `/order/complete`: Complete the order
+
+Example of order creation:
+
+    { 
+      "shopId": 1,
+      "productsRelation": [
+        { "productId": 1, "quantity": 2},
+        { "productId": 2, "quantity": 1}
+      ],
+      "clientEmail": "test@example.com"
+    }
+    
+Completing the order:
+
+    { 
+      "orderId": 1,
+      "billingAddress": "Example billing",
+      "paymentType": "card",
+      "billTo": "Customer 1"
+    }
